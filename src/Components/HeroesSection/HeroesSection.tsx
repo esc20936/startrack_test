@@ -1,60 +1,19 @@
 import React from "react";
+import { FixedSizeGrid } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+
 import Loader from "../Loader/Loader";
 import Image from "next/image";
 import search from "@/assets/search/search.svg";
 import HeroCard from "../HeroCard/HeroCard";
+
 interface Props {
   loading: boolean;
+  data: any;
+  error: any;
 }
 
-const mockResponse = {
-  id: 1,
-  name: "A-Bomb",
-  slug: "1-a-bomb",
-  powerstats: {
-    intelligence: 38,
-    strength: 100,
-    speed: 17,
-    durability: 80,
-    power: 24,
-    combat: 64,
-  },
-  appearance: {
-    gender: "Male",
-    race: "Human",
-    height: ["6'8", "203 cm"],
-    weight: ["980 lb", "441 kg"],
-    eyeColor: "Yellow",
-    hairColor: "No Hair",
-  },
-  biography: {
-    fullName: "Richard Milhouse Jones",
-    alterEgos: "No alter egos found.",
-    aliases: ["Rick Jones"],
-    placeOfBirth: "Scarsdale, Arizona",
-    firstAppearance: "Hulk Vol 2 #2 (April, 2008) (as A-Bomb)",
-    publisher: "Marvel Comics",
-    alignment: "good",
-  },
-  work: {
-    occupation: "Musician, adventurer, author; formerly talk show host",
-    base: "-",
-  },
-  connections: {
-    groupAffiliation:
-      "Hulk Family; Excelsior (sponsor), Avengers (honorary member); formerly partner of the Hulk, Captain America and Captain Marvel; Teen Brigade; ally of Rom",
-    relatives:
-      "Marlo Chandler-Jones (wife); Polly (aunt); Mrs. Chandler (mother-in-law); Keith Chandler, Ray Chandler, three unidentified others (brothers-in-law); unidentified father (deceased); Jackie Shorr (alleged mother; unconfirmed)",
-  },
-  images: {
-    xs: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/xs/1-a-bomb.jpg",
-    sm: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/1-a-bomb.jpg",
-    md: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/md/1-a-bomb.jpg",
-    lg: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/1-a-bomb.jpg",
-  },
-};
-
-export default function HeroesSection({ loading }: Props) {
+export default function HeroesSection({ loading, data, error }: Props) {
   if (loading)
     return (
       <div className="flex flex-col items-start w-full h-full mt-[53px]">
@@ -62,10 +21,20 @@ export default function HeroesSection({ loading }: Props) {
       </div>
     );
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-start w-full h-full mt-[53px]">
+        <h1 className="text-white font-primary_Bold text-[28px]">
+          Error fetching data
+        </h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full flex flex-col min-h-screen h-full mt-[38px]">
       {/* Section header*/}
-      <div className="flex flex-row justify-between items-center w-full">
+      <div className="flex flex-row items-center justify-between w-full">
         <h1 className="text-white font-primary_Bold text-[28px]">
           All superheroes
         </h1>
@@ -83,18 +52,36 @@ export default function HeroesSection({ loading }: Props) {
       </div>
 
       {/* heroes */}
-      <div className="w-full  h-4/5 mt-[33px] overflow-y-scroll">
-        <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-1 gap-[15px] mt-[21px]">
-          {Array.from({ length: 16 }, (_, i) => (
-            <HeroCard
-              key={i}
-              name={mockResponse.name}
-              realName={mockResponse.biography.fullName}
-              stats={mockResponse.powerstats}
-              image={mockResponse.images.sm}
-            />
-          ))}
-        </div>
+      <div className="w-full  h-4/5 mt-[33px] overflow-y-scroll overflow-x-hidden">
+        <AutoSizer>
+          {({ height, width }) => (
+            <FixedSizeGrid
+              columnCount={4}
+              columnWidth={width / 4}
+              rowHeight={174 + 14}
+              rowCount={Math.ceil(data?.data?.length / 4)}
+              height={window.innerHeight}
+              width={window.innerWidth}
+              className="grid w-full grid-cols-4 gap-4"
+            >
+              {({ columnIndex, rowIndex, style }) => (
+                <div style={style} className="w-auto h-auto">
+                  <HeroCard
+                    key={data?.data[rowIndex * 4 + columnIndex]?.id}
+                    name={data?.data[rowIndex * 4 + columnIndex]?.name}
+                    realName={
+                      data?.data[rowIndex * 4 + columnIndex]?.biography[
+                        "full-name"
+                      ]
+                    }
+                    stats={data?.data[rowIndex * 4 + columnIndex]?.powerstats}
+                    image={data?.data[rowIndex * 4 + columnIndex]?.images.md}
+                  />
+                </div>
+              )}
+            </FixedSizeGrid>
+          )}
+        </AutoSizer>
       </div>
     </div>
   );
