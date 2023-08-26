@@ -1,10 +1,12 @@
-import Image from 'next/image'
-import Header from '@/Components/Header'
+"use client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Home from "@/UI/Home";
+const queryClient = new QueryClient();
 
-export default function Home() {
+export default function App() {
   return (
-    <main className="flex flex-col w-full min-h-screen bg-darkPurple">
-      <Header />
-    </main>
-  )
+    <QueryClientProvider client={queryClient}>
+      <Home />
+    </QueryClientProvider>
+  );
 }
