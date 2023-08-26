@@ -13,7 +13,7 @@ export default function LikedSection({ loading }: Props) {
 
   if (loading)
     return (
-      <div className="flex flex-col items-start w-full h-full">
+      <div className="flex flex-col items-start w-full h-auto">
         <Loader />
       </div>
     );
