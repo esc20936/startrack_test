@@ -1,3 +1,93 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: poppins_Black;
+  src: url(../assets/Fonts/Poppins/Poppins-Black.ttf);
+}
+
+@font-face {
+  font-family: poppins_BlackItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-BlackItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_Bold;
+  src: url(../assets/Fonts/Poppins/Poppins-Bold.ttf);
+}
+
+@font-face {
+  font-family: poppins_BoldItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_ExtraBold;
+  src: url(../assets/Fonts/Poppins/Poppins-ExtraBold.ttf);
+}
+
+@font-face {
+  font-family: poppins_ExtraBoldItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-ExtraBoldItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_ExtraLight;
+  src: url(../assets/Fonts/Poppins/Poppins-ExtraLight.ttf);
+}
+
+@font-face {
+  font-family: poppins_ExtraLightItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-ExtraLightItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_Italic;
+  src: url(../assets/Fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+  font-family: poppins_Light;
+  src: url(../assets/Fonts/Poppins/Poppins-Light.ttf);
+}
+
+@font-face {
+  font-family: poppins_LightItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_Medium;
+  src: url(../assets/Fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+  font-family: poppins_MediumItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-MediumItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_Regular;
+  src: url(../assets/Fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: poppins_SemiBold;
+  src: url(../assets/Fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: poppins_SemiBoldItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-SemiBoldItalic.ttf);
+}
+
+@font-face {
+  font-family: poppins_Thin;
+  src: url(../assets/Fonts/Poppins/Poppins-Thin.ttf);
+}
+
+@font-face {
+  font-family: poppins_ThinItalic;
+  src: url(../assets/Fonts/Poppins/Poppins-ThinItalic.ttf);
+}
