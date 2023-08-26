@@ -6,7 +6,7 @@ interface Props {
 
 export default function ContentContainer({ children }: Props) {
   return (
-    <div className="min-h-screen w-full px-[128px] mt-[68px]">
+    <div className="h-full w-full px-[128px] mt-[68px]">
       {children}
     </div>
   );
