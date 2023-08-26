@@ -6,7 +6,7 @@ import LikedSection from "@/Components/LikedSection/LikedSection";
 import HeroesSection from "@/Components/HeroesSection/HeroesSection";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   return (
     <main className="flex flex-col w-full min-h-screen bg-darkPurple">
