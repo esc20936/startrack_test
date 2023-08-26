@@ -21,6 +21,7 @@ interface Props {
 
 export default function HeroCard({ name, realName, stats, image }: Props) {
   const computeStats = (stats: stats) => {
+    if (!stats) return 0;
     const total = Object.values(stats).reduce((a, b) => a + b, 0);
     const amount = Object.values(stats).length;
     const res = total / amount;
@@ -29,8 +30,11 @@ export default function HeroCard({ name, realName, stats, image }: Props) {
 
   const statsTotal = computeStats(stats);
 
+  if(!statsTotal) return(<div></div>)
+
+
   return (
-    <div className="relative w-[285px] h-[174px] bg-purple-900 rounded-[16px] gap-[16px]">
+    <div className="relative w-[285px] h-[174px] rounded-[16px] gap-[16px] border-darkPurple border-solid hover:border-cardLoader border-2 hover:cursor-pointer ">
       {/* front card */}
       <div className="absolute w-full h-full rounded-[16px] flex flex-row items-start justify-start  p-[16px] gap-[16px] card z-10">
         {/* Image */}
