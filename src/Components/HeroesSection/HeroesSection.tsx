@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useRef, useDeferredValue } from "react";
 import { FixedSizeGrid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-
 import Loader from "../Loader/Loader";
 import Image from "next/image";
 import search from "@/assets/search/search.svg";
@@ -31,6 +30,23 @@ export default function HeroesSection({ loading, data, error }: Props) {
     );
   }
 
+  const [dataToDisplay, setDataToDisplay] = useState(data?.data);
+  const [searchValue, setSearchValue] = useState("");
+  const deferredSearchValue = useDeferredValue(searchValue);
+  
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearch = () => {
+    if (inputRef.current?.value.length === 0)
+      return setDataToDisplay(data?.data);
+
+    const filteredData = data?.data.filter((hero: any) =>
+      hero.name.toLowerCase().includes(inputRef.current?.value.toLowerCase()) || hero.biography["fullName"].toLowerCase().includes(inputRef.current?.value.toLowerCase())
+    );
+
+    setDataToDisplay(filteredData);
+  };
+
   return (
     <div className="w-full flex flex-col min-h-screen h-full mt-[38px]">
       {/* Section header*/}
@@ -44,9 +60,11 @@ export default function HeroesSection({ loading, data, error }: Props) {
           <Image src={search} alt="search" width={20} height={20} />
 
           <input
+            ref={inputRef}
             type="text"
             placeholder="Search"
             className="bg-transparent outline-none w-full font-primary_Regular text-white text-[15px]"
+            onChange={handleSearch}
           />
         </div>
       </div>
@@ -67,15 +85,17 @@ export default function HeroesSection({ loading, data, error }: Props) {
               {({ columnIndex, rowIndex, style }) => (
                 <div style={style} className="w-auto h-auto">
                   <HeroCard
-                    key={data?.data[rowIndex * 4 + columnIndex]?.id}
-                    name={data?.data[rowIndex * 4 + columnIndex]?.name}
+                    key={dataToDisplay[rowIndex * 4 + columnIndex]?.id}
+                    name={dataToDisplay[rowIndex * 4 + columnIndex]?.name}
                     realName={
-                      data?.data[rowIndex * 4 + columnIndex]?.biography[
-                        "full-name"
+                      dataToDisplay[rowIndex * 4 + columnIndex]?.biography[
+                        "fullName"
                       ]
                     }
-                    stats={data?.data[rowIndex * 4 + columnIndex]?.powerstats}
-                    image={data?.data[rowIndex * 4 + columnIndex]?.images.md}
+                    stats={
+                      dataToDisplay[rowIndex * 4 + columnIndex]?.powerstats
+                    }
+                    image={dataToDisplay[rowIndex * 4 + columnIndex]?.images.md}
                   />
                 </div>
               )}
