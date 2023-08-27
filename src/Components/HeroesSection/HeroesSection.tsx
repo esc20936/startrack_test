@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { FixedSizeGrid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -14,6 +15,19 @@ interface Props {
 }
 
 export default function HeroesSection({ loading, error }: Props) {
+
+  const allHeroes = useSelector((state: any) => state.heroes.allHeroes);
+  const [dataToDisplay, setDataToDisplay] = useState(allHeroes);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // clear input
+    inputRef.current!.value = "";
+
+    setDataToDisplay(allHeroes);
+  }, [allHeroes]);
+
+
   if (loading)
     return (
       <div className="flex flex-col items-start w-full h-full mt-[53px]">
@@ -30,18 +44,7 @@ export default function HeroesSection({ loading, error }: Props) {
       </div>
     );
   }
-
-  const allHeroes = useSelector((state: any) => state.heroes.allHeroes);
-  const [dataToDisplay, setDataToDisplay] = useState(allHeroes);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    // clear input
-    inputRef.current!.value = "";
-
-    setDataToDisplay(allHeroes);
-  }, [allHeroes]);
-
+  
   const handleSearch = () => {
     if (inputRef.current?.value.length === 0)
       return setDataToDisplay(allHeroes);
