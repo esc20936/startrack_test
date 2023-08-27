@@ -121,3 +121,19 @@ body, html, #root{
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
 }
+
+.animate-opacity-scale {
+  /* animation: opacityScale 0.25s ease; */
+}
+
+
+@keyframes opacityScale {
+  0% {
+    opacity: 0.75;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

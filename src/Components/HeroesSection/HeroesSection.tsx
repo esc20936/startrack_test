@@ -1,18 +1,19 @@
-import React, { useState, useRef, useDeferredValue } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FixedSizeGrid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import Loader from "../Loader/Loader";
 import Image from "next/image";
 import search from "@/assets/search/search.svg";
 import HeroCard from "../HeroCard/HeroCard";
+import { useSelector, useDispatch } from "react-redux";
+import { setAllHeroes } from "@/Store/HeroesList/HeroesList";
 
 interface Props {
   loading: boolean;
-  data: any;
   error: any;
 }
 
-export default function HeroesSection({ loading, data, error }: Props) {
+export default function HeroesSection({ loading, error }: Props) {
   if (loading)
     return (
       <div className="flex flex-col items-start w-full h-full mt-[53px]">
@@ -30,18 +31,29 @@ export default function HeroesSection({ loading, data, error }: Props) {
     );
   }
 
-  const [dataToDisplay, setDataToDisplay] = useState(data?.data);
-  const [searchValue, setSearchValue] = useState("");
-  const deferredSearchValue = useDeferredValue(searchValue);
-  
+  const allHeroes = useSelector((state: any) => state.heroes.allHeroes);
+  const [dataToDisplay, setDataToDisplay] = useState(allHeroes);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // clear input
+    inputRef.current!.value = "";
+
+    setDataToDisplay(allHeroes);
+  }, [allHeroes]);
 
   const handleSearch = () => {
     if (inputRef.current?.value.length === 0)
-      return setDataToDisplay(data?.data);
+      return setDataToDisplay(allHeroes);
 
-    const filteredData = data?.data.filter((hero: any) =>
-      hero.name.toLowerCase().includes(inputRef.current?.value.toLowerCase()) || hero.biography["fullName"].toLowerCase().includes(inputRef.current?.value.toLowerCase())
+    const filteredData = dataToDisplay.filter(
+      (hero: any) =>
+        hero.name
+          .toLowerCase()
+          .includes(inputRef.current?.value.toLowerCase()) ||
+        hero.biography["fullName"]
+          .toLowerCase()
+          .includes(inputRef.current?.value.toLowerCase())
     );
 
     setDataToDisplay(filteredData);
@@ -77,28 +89,29 @@ export default function HeroesSection({ loading, data, error }: Props) {
               columnCount={4}
               columnWidth={width / 4}
               rowHeight={174 + 14}
-              rowCount={Math.ceil(data?.data?.length / 4)}
+              rowCount={Math.ceil(dataToDisplay.length / 4)}
               height={window.innerHeight}
               width={window.innerWidth}
               className="grid w-full grid-cols-4 gap-4"
             >
-              {({ columnIndex, rowIndex, style }) => (
-                <div style={style} className="w-auto h-auto">
-                  <HeroCard
-                    key={dataToDisplay[rowIndex * 4 + columnIndex]?.id}
-                    name={dataToDisplay[rowIndex * 4 + columnIndex]?.name}
-                    realName={
-                      dataToDisplay[rowIndex * 4 + columnIndex]?.biography[
-                        "fullName"
-                      ]
-                    }
-                    stats={
-                      dataToDisplay[rowIndex * 4 + columnIndex]?.powerstats
-                    }
-                    image={dataToDisplay[rowIndex * 4 + columnIndex]?.images.md}
-                  />
-                </div>
-              )}
+              {({ columnIndex, rowIndex, style }) => {
+                return (
+                  <div style={style} className="w-auto h-auto">
+                    <HeroCard
+                      key={dataToDisplay[rowIndex * 4 + columnIndex]?.id}
+                      name={dataToDisplay[rowIndex * 4 + columnIndex]?.name}
+                      biography={
+                        dataToDisplay[rowIndex * 4 + columnIndex]?.biography
+                      }
+                      powerstats={
+                        dataToDisplay[rowIndex * 4 + columnIndex]?.powerstats
+                      }
+                      images={dataToDisplay[rowIndex * 4 + columnIndex]?.images}
+                      id={dataToDisplay[rowIndex * 4 + columnIndex]?.id}
+                    />
+                  </div>
+                );
+              }}
             </FixedSizeGrid>
           )}
         </AutoSizer>

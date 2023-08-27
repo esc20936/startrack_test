@@ -38,8 +38,13 @@ const config: Config = {
         primary_Thin: "poppins_Thin",
         primary_ThinItalic: "poppins_ThinItalic",
       },
+
+      animation:{
+        
+      }
     },
   },
   plugins: [],
+
 };
 export default config;
