@@ -22,7 +22,6 @@ export default function HeroesSection({ loading, error }: Props) {
 
   useEffect(() => {
     // clear input
-    inputRef.current!.value = "";
 
     setDataToDisplay(allHeroes);
   }, [allHeroes]);
