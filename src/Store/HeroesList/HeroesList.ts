@@ -87,8 +87,6 @@ export const HeroesSlice = createSlice({
         }
 
         state.likedHeroes = likedHeroes;
-        // remove liked heroes from all heroes
-       console.log(allHeroes, idArrayOfLikedHeroes)
 
     },
   },
