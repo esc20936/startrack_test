@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# startrack_test
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+- [About](#about)
+- [Getting Started](#getting_started)
+- [Usage](#usage)
+- [Contributing](../CONTRIBUTING.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## About <a name = "about"></a>
+
+This my solution to the StarTrack test. The solution is a simple web application that allows a user to use a hero API to search for a hero and then add that hero to a list of favourites. The user can then view their favourites and remove them from the list.
+
+## Getting Started <a name = "getting_started"></a>
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+## live demo
+
+[Live demo](https://startrack-test.vercel.app/)
+
+### Prerequisites
+
+
+
+1. clone repo runnning git clone on the terminal
+```
+git clone https://github.com/esc20936/startrack_test.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+A step by step series of examples that tell you how to get a development env running.
 
-## Learn More
+1. Install dependencies
+```
+    npm install
+```
+2. Run the application
+```
+    npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Usage <a name = "usage"></a>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Use the application as follows:
+<!-- insert video -->
+![App usage](https://media.giphy.com/media/sygYQuUi0Z9xpBdYHq/giphy.gif)
