@@ -77,7 +77,8 @@ export default function HeroCard({
       );
       return;
     }
-    document.getElementById('header')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('lastLiked')?.scrollIntoView({ behavior: 'smooth',
+    block: 'center' });
     dispatch(
       addHeroToLikedList({
         name,
@@ -97,6 +98,7 @@ export default function HeroCard({
     <div
       onClick={handleLike}
       className="relative w-[285px] h-[174px] rounded-[16px] gap-[16px] border-darkPurple border-solid hover:border-cardLoader border-2 hover:cursor-pointer animate-opacity-scale"
+      id={lastLiked ? 'lastLiked' : ''}
     >
       {/* front card */}
       <div className="absolute w-full h-full rounded-[16px] flex flex-row items-start justify-start  p-[16px] gap-[16px] card z-10">
