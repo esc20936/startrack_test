@@ -7,13 +7,15 @@ import Image from "next/image";
 import search from "@/assets/search/search.svg";
 import HeroCard from "../HeroCard/HeroCard";
 import { useSelector, useDispatch } from "react-redux";
+import HeroInterface from "@/interfaces/HeroInterface/HeroInterface";
+import { RootState } from "@/Store/Store";
 interface Props {
   loading: boolean;
-  error: any;
+  error: boolean;
 }
 
 export default function HeroesSection({ loading, error }: Props) {
-  const allHeroes = useSelector((state: any) => state.heroes.allHeroes);
+  const allHeroes = useSelector((state : RootState ) => state.heroes.allHeroes);
   const [dataToDisplay, setDataToDisplay] = useState(allHeroes);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +40,7 @@ export default function HeroesSection({ loading, error }: Props) {
     );
   }
 
-  const handleSearch = (e: Event) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     // prevent default behaviour
     e.preventDefault();
@@ -48,13 +50,13 @@ export default function HeroesSection({ loading, error }: Props) {
       return setDataToDisplay(allHeroes);
 
     const filteredData = allHeroes.filter(
-      (hero: any) =>
+      (hero: HeroInterface) =>
         hero.name
           .toLowerCase()
-          .includes(inputRef.current?.value.toLowerCase()) ||
+          .includes(inputRef.current?.value.toLowerCase()!) ||
         hero.biography["fullName"]
           .toLowerCase()
-          .includes(inputRef.current?.value.toLowerCase())
+          .includes(inputRef.current?.value.toLowerCase()!)
     );
     console.log(filteredData);
     setDataToDisplay(filteredData);
@@ -81,7 +83,7 @@ export default function HeroesSection({ loading, error }: Props) {
             type="text"
             placeholder="Search"
             className="bg-transparent outline-none w-full font-primary_Regular text-white text-[15px]"
-            onChange={(e: any)=>handleSearch(e)}
+            onChange={handleSearch}
           />
         </div>
       </div>

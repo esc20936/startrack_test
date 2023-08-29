@@ -28,7 +28,7 @@ export default function Home() {
     }
   };
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["todos"],
     queryFn: getHeroes,
     staleTime: Infinity,
@@ -58,7 +58,7 @@ export default function Home() {
       <Header />
       <ContentContainer>
         <LikedSection loading={isLoading} />
-        <HeroesSection loading={isLoading} error={error} />
+        <HeroesSection loading={isLoading} error={isError} />
       </ContentContainer>
     </main>
   );
