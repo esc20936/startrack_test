@@ -62,10 +62,12 @@ export default function HeroesSection({ loading, error }: Props) {
 
   return (
     <div
-    id="heroesSection"
     className="w-full flex flex-col min-h-screen h-full mt-[38px]">
       {/* Section header*/}
-      <div className="flex flex-col md:flex-row items-center justify-between w-full">
+      <div
+    id="heroesSection"
+      
+      className="flex flex-col gap-4 md:gap-0 md:flex-row items-center justify-between w-full">
         <h1 className="text-white font-primary_Bold text-[28px]">
           All superheroes
         </h1>

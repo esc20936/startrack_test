@@ -91,6 +91,7 @@ export default function LikedSection({ loading }: Props) {
       </div>
 
       <div
+      id="likedSectionContainer"
         ref={likeSection}
         className={
           showLiked

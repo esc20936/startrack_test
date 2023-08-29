@@ -77,8 +77,7 @@ export default function HeroCard({
       );
       return;
     }
-    document.getElementById('lastLiked')?.scrollIntoView({ behavior: 'smooth',
-    block: 'center' });
+    document.getElementById('lastLiked')?.scrollIntoView({ behavior: 'smooth' });
     dispatch(
       addHeroToLikedList({
         name,
