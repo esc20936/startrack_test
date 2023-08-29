@@ -69,7 +69,7 @@ export const HeroesSlice = createSlice({
       state.allHeroes.push(action.payload);
 
       // sort all heroes by id
-      state.allHeroes.sort((HeroA: HeroInterface, HeroB:HeroInterface) => HeroA.id - HeroB.id);
+      state.allHeroes.sort((HeroA:any, HeroB:any) => HeroA.id - HeroB.id);
     },
     setAllHeroes: (state, action: PayloadAction<HeroInterface[]>) => {
       state.allHeroes = action.payload;
@@ -88,7 +88,7 @@ export const HeroesSlice = createSlice({
       // filter liked heroes by id
       let likedHeroes: HeroInterface[] = [];
       for (let id of idArrayOfLikedHeroes) {
-        let hero : HeroInterface = allHeroesCopy.find((hero: HeroInterface) => hero.id === id);
+        let hero : any = allHeroesCopy.find((hero: HeroInterface) => hero.id === id);
         likedHeroes.push(hero);
       }
 
