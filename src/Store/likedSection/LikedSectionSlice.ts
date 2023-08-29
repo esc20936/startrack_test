@@ -14,9 +14,15 @@ export const LikedSectionSlice = createSlice({
     reducers: {
         toggleLikedSection: (state) => {
             state.show = !state.show;
+
+            // set item to local storage
+            localStorage.setItem("likedSectionOpen", JSON.stringify(state.show));
         },
         setLikedSection: (state, action) => {
             state.show = action.payload;
+
+            // set item to local storage
+            localStorage.setItem("likedSectionOpen", JSON.stringify(state.show));
         },
     },
 });
