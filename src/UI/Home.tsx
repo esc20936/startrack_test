@@ -18,9 +18,12 @@ export default function Home() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["todos"],
     queryFn: getHeroes,
+    staleTime:Infinity,
+    cacheTime:Infinity,
+
     onSuccess: (data) => {
       if (localStorage.getItem("likedHeroes") === null) {
-        localStorage.setItem("likedHeroes", JSON.stringify([1]));
+        localStorage.setItem("likedHeroes", JSON.stringify([]));
         dispatch(setAllHeroes(data?.data));
       } else {
         let payload = {
@@ -34,6 +37,8 @@ export default function Home() {
       }
     },
   });
+
+  
 
   return (
     <main className="flex flex-col w-full min-h-screen bg-darkPurple">

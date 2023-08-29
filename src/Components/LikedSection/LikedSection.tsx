@@ -1,18 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import Image from "next/image";
 import smallHeart from "@/assets/small-heart/small-heart.svg";
 import mediumHeart from "@/assets/medium-heart/medium-heart.svg";
 import arrowUp from "@/assets/arrow-up/arrow-up.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import HeroCard from "../HeroCard/HeroCard";
+import {
+  setLikedSection,
+  toggleLikedSection,
+} from "@/Store/likedSection/LikedSectionSlice";
 
 interface Props {
   loading: boolean;
 }
 
 export default function LikedSection({ loading }: Props) {
-  const [showLiked, setShowLiked] = useState(false);
+  // const [showLiked, setShowLiked] = useState(false);
+  const dispatch = useDispatch();
+  const showLiked = useSelector((state: any) => state.likedSection.show);
   const likeSection = useRef<HTMLDivElement>(null);
   const likedHeroes = useSelector((state: any) => state.heroes.likedHeroes);
 
@@ -31,8 +37,10 @@ export default function LikedSection({ loading }: Props) {
 
   // function that returns a react node
   const renderLikedHeroes = (): JSX.Element => {
+    const lastItem = likedHeroes[likedHeroes.length - 1];
+
     return (
-      <div className="grid grid-cols-4 gap-[16px]">
+      <div className={`flex flex-wrap gap-4`}>
         {likedHeroes.map((hero: any) => (
           <HeroCard
             key={hero.id}
@@ -41,6 +49,8 @@ export default function LikedSection({ loading }: Props) {
             powerstats={hero.powerstats}
             images={hero.images}
             id={hero.id}
+            liked={true}
+            lastLiked={lastItem.id === hero.id}
           />
         ))}
       </div>
@@ -55,7 +65,7 @@ export default function LikedSection({ loading }: Props) {
             ? "w-full h-[74px] bg-darkPurple bg-opacity-[28%] rounded-t-[16px] p-[16px] border-b-0 border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between"
             : "w-full h-[74px] bg-cardLoader bg-opacity-[28%] rounded-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between cursor-pointer"
         }
-        onClick={() => (showLiked ? "" : setShowLiked(true))}
+        onClick={() => (showLiked ? "" : dispatch(setLikedSection(true)))}
       >
         {/* icon and name */}
         <div className="flex flex-row items-center gap-[8px]">
@@ -69,7 +79,7 @@ export default function LikedSection({ loading }: Props) {
 
         {/* button */}
         <button
-          onClick={() => setShowLiked(!showLiked)}
+          onClick={() => dispatch(toggleLikedSection())}
           className={
             showLiked
               ? "h-[40px] w-[40px] rounded-[32px] p-[8px] g-[10px] bg-white bg-opacity-10 cursor-pointer duration-300"
@@ -85,7 +95,7 @@ export default function LikedSection({ loading }: Props) {
         className={
           showLiked
             ? "w-full h-auto min-h-[167px] bg-darkPurple border-t-0 rounded-b-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between items-center duration-300 ease-linear"
-            : "w-full h-[0px] bg-darkPurple  border-t-0 rounded-b-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between duration-300 transform -translate-y-1 ease-linear  opacity-0 -z-10"
+            : "w-full hidden h-[0px] bg-darkPurple  border-t-0 rounded-b-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between duration-300 transform -translate-y-1 ease-linear  opacity-0 -z-10"
         }
         onTransitionEnd={handleEndTransition}
       >

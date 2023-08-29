@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import heroReducer from './HeroesList/HeroesList'
+import LikedSectionSlice from './likedSection/LikedSectionSlice'
 
 export const store = configureStore({
   reducer: {
     heroes: heroReducer,
+    likedSection: LikedSectionSlice
   },
 })
 

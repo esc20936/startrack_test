@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Image from "next/image";
 import mediumHeart from "@/assets/medium-heart/medium-heart.svg";
 import mediumHeartFilled from "@/assets/medium-filled-heart/medium-filled-heart.svg";
@@ -8,6 +8,8 @@ import {
   addHeroToLikedList,
   removeHeroFromLikedList,
 } from "@/Store/HeroesList/HeroesList";
+import { setLikedSection } from "@/Store/likedSection/LikedSectionSlice";
+
 
 interface stats {
   intelligence: number;
@@ -32,6 +34,8 @@ interface Props {
   powerstats: stats;
   images: images;
   id: string;
+  liked?: boolean;
+  lastLiked?: boolean;
 }
 
 export default function HeroCard({
@@ -40,11 +44,12 @@ export default function HeroCard({
   powerstats,
   images,
   id,
+  liked=false,
+  lastLiked=false,
 }: Props) {
-  const likedHeroes = useSelector((state: any) => state.heroes.likedHeroes);
-  let lastIdLiked = likedHeroes[likedHeroes.length - 1]?.id;
-  const dispatch = useDispatch();
 
+
+  const dispatch = useDispatch();
   const computeStats = (stats: stats) => {
     if (!stats) return 0;
     const total = Object.values(stats).reduce((a, b) => a + b, 0);
@@ -53,12 +58,14 @@ export default function HeroCard({
     return (res / 10).toFixed(1);
   };
 
+
   const statsTotal = computeStats(powerstats);
 
   if (!statsTotal) return <div></div>;
 
   const handleLike = () => {
-    if (likedHeroes.some((hero: any) => hero.id === id)) {
+    
+    if (liked) {
       dispatch(
         removeHeroFromLikedList({
           name,
@@ -70,7 +77,7 @@ export default function HeroCard({
       );
       return;
     }
-
+    document.getElementById('header')?.scrollIntoView({ behavior: 'smooth' });
     dispatch(
       addHeroToLikedList({
         name,
@@ -80,12 +87,15 @@ export default function HeroCard({
         id,
       })
     );
+
+    dispatch(setLikedSection(true));
+
+    
   };
 
   return (
     <div
       onClick={handleLike}
-      
       className="relative w-[285px] h-[174px] rounded-[16px] gap-[16px] border-darkPurple border-solid hover:border-cardLoader border-2 hover:cursor-pointer animate-opacity-scale"
     >
       {/* front card */}
@@ -100,7 +110,7 @@ export default function HeroCard({
 
           {/* like button */}
           <div className="w-[48px] h-[48px] rounded-[33px] p-[16px] bg-cardLoader -bottom-1 -right-2 absolute">
-            {likedHeroes.some((hero: any) => hero.id === id) ? (
+            {liked ? (
               <Image src={mediumHeartFilled} alt="small heart" />
             ) : (
               <Image src={mediumHeart} alt="small heart" />
@@ -109,7 +119,7 @@ export default function HeroCard({
         </div>
         {/* liked recently only*/}
 
-        {lastIdLiked === id && (
+        {liked && lastLiked  && (
           <div className="w-[76px] h-[19px] rounded-[6px] px-[4px] py-[2px] bg-cardLoader -top-2 -right-2 absolute">
             <p className="text-white font-primary_Regular text-[10px]">
               Liked recently
