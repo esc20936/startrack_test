@@ -63,6 +63,25 @@ export default function HeroCard({
 
   if (!statsTotal) return <div></div>;
 
+
+  const handleScroll = () => {
+    const lastLikedElement = document.getElementById('lastLiked');
+
+    if (!lastLikedElement){
+      document.getElementById('header')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if(document.getElementById('likedSectionContainer')?.classList.contains('hidden')){
+      console.log('hidden');
+      document.getElementById('likedSectionContainer')?.classList.remove('hidden');
+      document.getElementById('lastLiked')?.scrollIntoView({ behavior: 'smooth', block: 'center'});
+      return;
+
+    }
+    lastLikedElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
   const handleLike = () => {
     
     if (liked) {
@@ -77,7 +96,6 @@ export default function HeroCard({
       );
       return;
     }
-    document.getElementById('lastLiked')?.scrollIntoView({ behavior: 'smooth' });
     dispatch(
       addHeroToLikedList({
         name,
@@ -89,6 +107,9 @@ export default function HeroCard({
     );
 
     dispatch(setLikedSection(true));
+
+    handleScroll();
+
 
     
   };
