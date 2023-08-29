@@ -7,25 +7,19 @@ import Image from "next/image";
 import search from "@/assets/search/search.svg";
 import HeroCard from "../HeroCard/HeroCard";
 import { useSelector, useDispatch } from "react-redux";
-import { setAllHeroes } from "@/Store/HeroesList/HeroesList";
-
 interface Props {
   loading: boolean;
   error: any;
 }
 
 export default function HeroesSection({ loading, error }: Props) {
-
   const allHeroes = useSelector((state: any) => state.heroes.allHeroes);
   const [dataToDisplay, setDataToDisplay] = useState(allHeroes);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // clear input
-
     setDataToDisplay(allHeroes);
   }, [allHeroes]);
-
 
   if (loading)
     return (
@@ -43,12 +37,17 @@ export default function HeroesSection({ loading, error }: Props) {
       </div>
     );
   }
-  
-  const handleSearch = () => {
+
+  const handleSearch = (e: Event) => {
+
+    // prevent default behaviour
+    e.preventDefault();
+
+
     if (inputRef.current?.value.length === 0)
       return setDataToDisplay(allHeroes);
 
-    const filteredData = dataToDisplay.filter(
+    const filteredData = allHeroes.filter(
       (hero: any) =>
         hero.name
           .toLowerCase()
@@ -57,20 +56,24 @@ export default function HeroesSection({ loading, error }: Props) {
           .toLowerCase()
           .includes(inputRef.current?.value.toLowerCase())
     );
-
+    console.log(filteredData);
     setDataToDisplay(filteredData);
   };
 
   return (
-    <div className="w-full flex flex-col min-h-screen h-full mt-[38px]">
+    <div
+    className="w-full flex flex-col min-h-screen h-full mt-[38px]">
       {/* Section header*/}
-      <div className="flex flex-row items-center justify-between w-full">
+      <div
+    id="heroesSection"
+      
+      className="flex flex-col gap-4 md:gap-0 md:flex-row items-center justify-between w-full">
         <h1 className="text-white font-primary_Bold text-[28px]">
           All superheroes
         </h1>
 
         {/* search bar */}
-        <div className="flex-row items-center gap-[10px] bg-white bg-opacity-[10%] p-[8px]   rounded-[32px] w-1/3 max-w-[371px] hidden md:flex">
+        <div className="flex-row items-center gap-[10px] bg-white bg-opacity-[10%] p-[8px]   rounded-[32px] min-w-[200px] w-1/3 max-w-[371px] flex">
           <Image src={search} alt="search" width={20} height={20} />
 
           <input
@@ -78,7 +81,7 @@ export default function HeroesSection({ loading, error }: Props) {
             type="text"
             placeholder="Search"
             className="bg-transparent outline-none w-full font-primary_Regular text-white text-[15px]"
-            onChange={handleSearch}
+            onChange={(e: any)=>handleSearch(e)}
           />
         </div>
       </div>
@@ -86,36 +89,64 @@ export default function HeroesSection({ loading, error }: Props) {
       {/* heroes */}
       <div className="w-full  h-4/5 mt-[33px] overflow-y-scroll overflow-x-hidden">
         <AutoSizer>
-          {({ height, width }) => (
-            <FixedSizeGrid
-              columnCount={4}
-              columnWidth={width / 4}
-              rowHeight={174 + 14}
-              rowCount={Math.ceil(dataToDisplay.length / 4)}
-              height={window.innerHeight}
-              width={window.innerWidth}
-              className="grid w-full grid-cols-4 gap-4"
-            >
-              {({ columnIndex, rowIndex, style }) => {
-                return (
-                  <div style={style} className="w-auto h-auto">
-                    <HeroCard
-                      key={dataToDisplay[rowIndex * 4 + columnIndex]?.id}
-                      name={dataToDisplay[rowIndex * 4 + columnIndex]?.name}
-                      biography={
-                        dataToDisplay[rowIndex * 4 + columnIndex]?.biography
-                      }
-                      powerstats={
-                        dataToDisplay[rowIndex * 4 + columnIndex]?.powerstats
-                      }
-                      images={dataToDisplay[rowIndex * 4 + columnIndex]?.images}
-                      id={dataToDisplay[rowIndex * 4 + columnIndex]?.id}
-                    />
-                  </div>
-                );
-              }}
-            </FixedSizeGrid>
-          )}
+          {({ height, width }) => {
+            const amountOfColumns = Math.floor(width / 300);
+
+            const widthOfColumn = width / amountOfColumns;
+            return (
+              <FixedSizeGrid
+                columnCount={amountOfColumns}
+                columnWidth={widthOfColumn}
+                rowHeight={174 + 14}
+                rowCount={Math.ceil(dataToDisplay.length / amountOfColumns)}
+                height={window.innerHeight}
+                width={window.innerWidth}
+              >
+                {({ columnIndex, rowIndex, style }) => {
+       
+                  return (
+                    <div
+                      style={style}
+                      className="w-auto h-auto flex flex-row justify-around"
+                    >
+                      <HeroCard
+                        key={
+                          dataToDisplay[
+                            rowIndex * amountOfColumns + columnIndex
+                          ]?.id
+                        }
+                        name={
+                          dataToDisplay[
+                            rowIndex * amountOfColumns + columnIndex
+                          ]?.name
+                        }
+                        biography={
+                          dataToDisplay[
+                            rowIndex * amountOfColumns + columnIndex
+                          ]?.biography
+                        }
+                        powerstats={
+                          dataToDisplay[
+                            rowIndex * amountOfColumns + columnIndex
+                          ]?.powerstats
+                        }
+                        images={
+                          dataToDisplay[
+                            rowIndex * amountOfColumns + columnIndex
+                          ]?.images
+                        }
+                        id={
+                          dataToDisplay[
+                            rowIndex * amountOfColumns + columnIndex
+                          ]?.id
+                        }
+                      />
+                    </div>
+                  );
+                }}
+              </FixedSizeGrid>
+            );
+          }}
         </AutoSizer>
       </div>
     </div>

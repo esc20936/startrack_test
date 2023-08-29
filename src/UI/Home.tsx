@@ -11,16 +11,34 @@ import {
   setAllHeroes,
   setAllHeroesWithOutLiked,
 } from "@/Store/HeroesList/HeroesList";
+import { setLikedSection } from "@/Store/likedSection/LikedSectionSlice";
+
 
 export default function Home() {
   const dispatch = useDispatch();
 
+  const handleOpenLikedSection = () => {
+    if (localStorage.getItem("likedSectionOpen") === null) {
+      localStorage.setItem("likedSectionOpen", JSON.stringify(false));
+    } else {
+      // get the value from local storage
+      const value = JSON.parse(localStorage.getItem("likedSectionOpen")!);
+      // set the value to the state
+      dispatch(setLikedSection(value));
+    }
+  };
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["todos"],
     queryFn: getHeroes,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+
     onSuccess: (data) => {
+      handleOpenLikedSection();
+
       if (localStorage.getItem("likedHeroes") === null) {
-        localStorage.setItem("likedHeroes", JSON.stringify([1]));
+        localStorage.setItem("likedHeroes", JSON.stringify([]));
         dispatch(setAllHeroes(data?.data));
       } else {
         let payload = {

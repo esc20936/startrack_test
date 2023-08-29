@@ -4,7 +4,7 @@ import Logo from '@/assets/logo/logo.svg'
 
 export default function Header() {
   return (
-    <header className='flex flex-col items-center w-full mt-[57px]' >
+    <header id='header' className='flex flex-col items-center w-full mt-[57px]' >
         <Image src={Logo} alt="logo" />
     </header>
   )
