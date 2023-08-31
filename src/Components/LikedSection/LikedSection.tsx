@@ -10,6 +10,9 @@ import {
   setLikedSection,
   toggleLikedSection,
 } from "@/Store/likedSection/LikedSectionSlice";
+import { RootState } from "@/Store/Store";
+import HeroInterface from "@/interfaces/HeroInterface/HeroInterface";
+
 
 interface Props {
   loading: boolean;
@@ -18,9 +21,9 @@ interface Props {
 export default function LikedSection({ loading }: Props) {
   // const [showLiked, setShowLiked] = useState(false);
   const dispatch = useDispatch();
-  const showLiked = useSelector((state: any) => state.likedSection.show);
+  const showLiked = useSelector((state: RootState) => state.likedSection.show);
   const likeSection = useRef<HTMLDivElement>(null);
-  const likedHeroes = useSelector((state: any) => state.heroes.likedHeroes);
+  const likedHeroes = useSelector((state: RootState) => state.heroes.likedHeroes);
 
   if (loading)
     return (
@@ -37,11 +40,17 @@ export default function LikedSection({ loading }: Props) {
 
   // function that returns a react node
   const renderLikedHeroes = (): JSX.Element => {
+
+    // remove first item of array and save the new array
+    
+
+
+
     const lastItem = likedHeroes[likedHeroes.length - 1];
 
     return (
       <div className={`flex flex-wrap gap-4`}>
-        {likedHeroes.map((hero: any) => (
+        {likedHeroes.map((hero: HeroInterface) => (
           <HeroCard
             key={hero.id}
             name={hero.name}
@@ -96,7 +105,7 @@ export default function LikedSection({ loading }: Props) {
         className={
           showLiked
             ? "w-full h-auto min-h-[167px] bg-darkPurple border-t-0 rounded-b-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between items-center duration-300 ease-linear"
-            : "w-full hidden h-[0px] bg-darkPurple  border-t-0 rounded-b-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex flex-row justify-between duration-300 transform -translate-y-1 ease-linear  opacity-0 -z-10"
+            : "w-full hidden h-[0px] bg-darkPurple  border-t-0 rounded-b-[16px] p-[16px] border-solid border-[1px] border-cardLoader border-opacity-[44%] flex-row justify-between duration-300 transform -translate-y-1 ease-linear  opacity-0 -z-10"
         }
         onTransitionEnd={handleEndTransition}
       >

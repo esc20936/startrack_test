@@ -9,34 +9,8 @@ import {
   removeHeroFromLikedList,
 } from "@/Store/HeroesList/HeroesList";
 import { setLikedSection } from "@/Store/likedSection/LikedSectionSlice";
-
-
-interface stats {
-  intelligence: number;
-  strength: number;
-  speed: number;
-  durability: number;
-  power: number;
-  combat: number;
-}
-
-interface images {
-  md: string;
-}
-
-interface biography {
-  fullName: string;
-}
-
-interface Props {
-  name: string;
-  biography: biography;
-  powerstats: stats;
-  images: images;
-  id: string;
-  liked?: boolean;
-  lastLiked?: boolean;
-}
+import HeroInterface from "@/interfaces/HeroInterface/HeroInterface";
+import stats from "@/interfaces/StatsInterface/HeroStatsInterface";
 
 export default function HeroCard({
   name,
@@ -46,7 +20,7 @@ export default function HeroCard({
   id,
   liked=false,
   lastLiked=false,
-}: Props) {
+}: HeroInterface) {
 
 
   const dispatch = useDispatch();
